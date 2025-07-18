@@ -17,7 +17,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version-file: '/home/runner/work/dice_roller/go.mod'
+        go-version-file: '/home/runner/work/dice_roller/dice_roller/go.mod'
 
     - name: Get dependencies
       run: go mod tidy
