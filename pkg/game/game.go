@@ -1,10 +1,10 @@
 package game
 
 import (
-	"ebit-hello/pkg/assets"
-	"ebit-hello/pkg/config"
-	"ebit-hello/pkg/cube"
-	"ebit-hello/pkg/graphics"
+	"github.com/olegshirko/dice_roller/pkg/assets"
+	"github.com/olegshirko/dice_roller/pkg/config"
+	"github.com/olegshirko/dice_roller/pkg/cube"
+	"github.com/olegshirko/dice_roller/pkg/graphics"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"

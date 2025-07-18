@@ -1,10 +1,10 @@
 package assets
 
 import (
-	"ebit-hello/internal/utils"
-	"ebit-hello/pkg/config"
-	"ebit-hello/pkg/cube"
-	"ebit-hello/pkg/ui"
+	"github.com/olegshirko/dice_roller/internal/utils"
+	"github.com/olegshirko/dice_roller/pkg/config"
+	"github.com/olegshirko/dice_roller/pkg/cube"
+	"github.com/olegshirko/dice_roller/pkg/ui"
 	"image"
 	_ "image/jpeg"
 	_ "image/png"

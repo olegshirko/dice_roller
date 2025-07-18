@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ebit-hello/pkg/assets"
-	"ebit-hello/pkg/config"
-	"ebit-hello/pkg/game"
+	"github.com/olegshirko/dice_roller/pkg/assets"
+	"github.com/olegshirko/dice_roller/pkg/config"
+	"github.com/olegshirko/dice_roller/pkg/game"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"

@@ -1,8 +1,8 @@
 package graphics
 
 import (
-	"ebit-hello/pkg/config"
-	"ebit-hello/pkg/cube"
+	"github.com/olegshirko/dice_roller/pkg/config"
+	"github.com/olegshirko/dice_roller/pkg/cube"
 	"image/color"
 	"math"
 	"sort"

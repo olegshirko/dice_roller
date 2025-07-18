@@ -3,7 +3,7 @@ package cube
 import (
 	"math"
 
-	"ebit-hello/pkg/config"
+	"github.com/olegshirko/dice_roller/pkg/config"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )

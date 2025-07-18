@@ -1,9 +1,9 @@
 package game
 
 import (
-	"ebit-hello/pkg/assets"
-	"ebit-hello/pkg/config"
-	"ebit-hello/pkg/cube"
+	"github.com/olegshirko/dice_roller/pkg/assets"
+	"github.com/olegshirko/dice_roller/pkg/config"
+	"github.com/olegshirko/dice_roller/pkg/cube"
 	"log"
 	"math"
 	"math/rand"
