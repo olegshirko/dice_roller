@@ -6,8 +6,10 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/font/gofont/goregular"
+	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
+	"log"
 )
 
 // AddLabelToImage добавляет текстовую метку на изображение.
@@ -17,7 +19,18 @@ func AddLabelToImage(img image.Image, label string) *ebiten.Image {
 	draw.Draw(newImg, bounds, img, image.Point{}, draw.Src)
 
 	// Настройка шрифта и текста
-	face := basicfont.Face7x13
+	tt, err := opentype.Parse(goregular.TTF)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size: 13,
+		DPI:  72,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 	drawer := &font.Drawer{
 		Dst:  newImg,
 		Src:  image.White,
