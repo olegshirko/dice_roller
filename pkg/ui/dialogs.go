@@ -4,7 +4,7 @@ import (
 	"github.com/sqweek/dialog"
 )
 
-func ShowFilePicker() ([]string, error) {
+var ShowFilePicker = func() ([]string, error) {
 	filename, err := dialog.File().Filter("Image files", "png", "jpg", "jpeg").Title("Select a texture").Load()
 	if err != nil {
 		return nil, err

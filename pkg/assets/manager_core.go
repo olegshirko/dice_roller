@@ -4,7 +4,6 @@ import (
 	"github.com/olegshirko/dice_roller/internal/utils"
 	"github.com/olegshirko/dice_roller/pkg/config"
 	"github.com/olegshirko/dice_roller/pkg/cube"
-	"github.com/olegshirko/dice_roller/pkg/ui"
 	"image"
 	_ "image/jpeg"
 	_ "image/png"
@@ -14,13 +13,26 @@ import (
 	"path/filepath"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/sqweek/dialog"
 )
 
-// Manager управляет всеми ресурсами (текстурами) в игре.
+// textureLoader defines the interface for loading textures.
+// This allows for mocking in tests.
+type textureLoader interface {
+	Load(path string) *ebiten.Image
+}
+
+// ebitenTextureLoader is the concrete implementation that uses Ebiten to load images.
+type ebitenTextureLoader struct{}
+
+// Load implements the textureLoader interface.
+func (l *ebitenTextureLoader) Load(path string) *ebiten.Image {
+	return loadTextureFromFile(path)
+}
+
 type Manager struct {
 	AllTextures       []*ebiten.Image // Все когда-либо загруженные текстуры
 	AvailableTextures []*ebiten.Image // Текстуры, доступные для использования
+	loader            textureLoader
 }
 
 // NewManager создает новый менеджер ассетов.
@@ -28,39 +40,7 @@ func NewManager() *Manager {
 	return &Manager{
 		AllTextures:       []*ebiten.Image{},
 		AvailableTextures: []*ebiten.Image{},
-	}
-}
-
-// LoadTextures предлагает пользователю выбрать один или несколько файлов текстур.
-func (m *Manager) LoadTextures() {
-	log.Println("Opening file dialog to select textures...")
-	filenames, err := ui.ShowFilePicker()
-	if err != nil {
-		if err == dialog.ErrCancelled {
-			log.Println("Texture selection cancelled.")
-		} else {
-			log.Printf("Error selecting file(s): %v", err)
-		}
-		return
-	}
-
-	if len(filenames) == 0 {
-		log.Println("No files were selected.")
-		return
-	}
-
-	// Очищаем старые текстуры только если выбраны новые
-	m.AllTextures = nil
-	m.AvailableTextures = nil
-
-	for _, filename := range filenames {
-		if tex := loadTextureFromFile(filename); tex != nil {
-			m.AllTextures = append(m.AllTextures, tex)
-		}
-	}
-
-	if len(m.AllTextures) > 0 {
-		m.prepareAvailableTextures()
+		loader:            &ebitenTextureLoader{},
 	}
 }
 
@@ -77,10 +57,6 @@ func (m *Manager) LoadFromDirectory(dir string) bool {
 		return false
 	}
 
-	// Не очищаем текстуры, если они уже были загружены, а добавляем к ним
-	// m.AllTextures = nil
-	// m.AvailableTextures = nil
-
 	loaded := false
 	for _, file := range files {
 		if file.IsDir() {
@@ -93,7 +69,7 @@ func (m *Manager) LoadFromDirectory(dir string) bool {
 		}
 
 		fullPath := filepath.Join(dir, file.Name())
-		if tex := loadTextureFromFile(fullPath); tex != nil {
+		if tex := m.loader.Load(fullPath); tex != nil {
 			m.AllTextures = append(m.AllTextures, tex)
 			loaded = true
 		}

@@ -10,11 +10,16 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
+// Renderer defines the interface for drawing a cube.
+type Renderer interface {
+	DrawCube(screen *ebiten.Image, c *cube.Cube, angleX, angleY, angleZ, offsetY float64)
+}
+
 type Game struct {
 	Cube         *cube.Cube
 	AssetManager *assets.Manager
 	StateManager *StateManager
-	Renderer     *graphics.Renderer
+	Renderer     Renderer
 }
 
 // NewGame создает новую игру.

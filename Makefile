@@ -5,7 +5,6 @@ OUTPUT_DIR := ./build
 
 all: build
 
-# Build a static library (.a)
 build-static:
 	mkdir -p $(OUTPUT_DIR)
 	$(GO) build -o . -o build
@@ -15,10 +14,16 @@ build: build-static
 
 # Run tests
 test:
-	$(GO) test ./...
+	$(GO) test ./... -coverprofile=coverage.out
+
+run: 
+	$(GO) run main.go
+
+coverage:
+	$(GO) tool cover -html=coverage.out
 
 # Clean build artifacts
 clean:
-	rm -rf $(OUTPUT_DIR) *.so *.a *.h
+	rm -rf $(OUTPUT_DIR) *.so *.a *.h coverage.out
 
-.PHONY: all build build-shared build-static test clean
+.PHONY: all build build-shared build-static test clean coverage
